@@ -12,14 +12,12 @@
     <title>Турбо Нетворкинг</title>
     <style>
         html {
-            height: 100vh;
-            height: -webkit-fill-available;;
+            height: 100dvh;
         }
 
         body {
-            width: 100vw;
-            height: 100vh;
-            height: -webkit-fill-available;
+            width: 100dvw;
+            height: 100dvh;
 
             margin: 0;
 
@@ -30,12 +28,11 @@
             color: #E5E5E5;
             background-color: #333333;
 
-            font-family: -apple-system, BlinkMacSystemFont,
-                "Segoe UI", "Roboto", "Oxygen",
-                "Ubuntu", "Cantarell", "Fira Sans",
-                "Droid Sans", "Helvetica Neue", sans-serif;
+            font-family: system-ui, sans-serif;
 
             user-select: none;
+
+            -webkit-tap-highlight-color: transparent;
         }
 
         #content {
@@ -55,15 +52,74 @@
             font-weight: bold;
         }
 
-        #button {
-            padding: 30px;
-            font-size: 72px;
-            font-size: calc(72px + (100 - 72) * ((100vw - 300px) / (1600 - 300)));
-
+        .button {
+            position: relative;
+            padding: 0;
+            border: none;
+            background: transparent;
             cursor: pointer;
-            border-radius: 56px;
-            background: linear-gradient(145deg, #373737, #2e2e2e);
-            box-shadow: 5px 5px 20px #242424, -5px -5px 20px #424242;
+            outline-offset: 4px;
+            transition: filter 250ms;
+            filter: brightness(110%);
+        }
+
+        .button__shadow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: hsl(0deg 0% 0% / 0.25);
+            will-change: transform;
+            transform: translateY(4px);
+            transition:
+                transform 600ms cubic-bezier(.3, .7, .4, 1);
+        }
+
+        .button__edge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(to left,
+                    hsl(27deg 81% 16%) 0%,
+                    hsl(27deg 81% 32%) 8%,
+                    hsl(27deg 81% 32%) 92%,
+                    hsl(27deg 81% 16%) 100%);
+        }
+
+        .button__front {
+            height: 70px;
+            width: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-radius: 50%;
+            font-size: 30px;
+            line-height: 30px;
+            background: hsl(27deg, 81%, 47%);
+            will-change: transform;
+            transform: translateY(-6px);
+            transition:
+                transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+        }
+
+        .button:active .button__front {
+            transform: translateY(-2px);
+            transition: transform 34ms;
+        }
+
+        .button:active .button__shadow {
+            transform: translateY(1px);
+            transition: transform 34ms;
+        }
+
+        .button:focus:not(:focus-visible) {
+            outline: none;
         }
     </style>
 </head>
@@ -71,7 +127,11 @@
 <body>
     <div id="content">
         <div id="question"></div>
-        <div id="button">🚀</div>
+        <div id="button" class="button">
+            <div class="button__shadow"></div>
+            <div class="button__edge"></div>
+            <div class="button__front">🚀</div>
+        </div>
     </div>
 
     <script>
